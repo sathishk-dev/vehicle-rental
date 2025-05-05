@@ -1,0 +1,15 @@
+body{
+    font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+
+.left-ad{
+    background: url('../public/assets/Ads1.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.right-ad{
+    background: url('../public/assets/Ads2.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
