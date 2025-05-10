@@ -350,6 +350,10 @@ app.put('/updateFavourite/:id',async(req,res)=>{
 
 });
 
+app.get("/", (req,res)=>{
+    res.send("Welcom vehicle rendal");
+})
+
 app.listen(3001, () => {
     console.log("Server is Running")
 })
