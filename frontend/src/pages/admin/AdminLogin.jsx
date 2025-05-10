@@ -15,7 +15,7 @@ export default function AdminLogin() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        axios.post(`${import.meta.env.VITE_SERVER2_URL}/adminLogin`, { email, password })
+        axios.post(`${import.meta.env.VITE_SERVER_URL}/adminLogin`, { email, password })
             .then(res => {
                 if (res.data.login) {
                     localStorage.setItem('adminName',res.data.name)
