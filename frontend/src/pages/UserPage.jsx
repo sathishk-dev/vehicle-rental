@@ -29,7 +29,7 @@ export default function UserPage() {
 
     const updateUser = async (e) => {
         e.preventDefault();
-        const { activeUser } = localStorage.getItem("activeUser");
+        const activeUser = localStorage.getItem("activeUser");
 
         try {
             const { data } = await axios.post(`${import.meta.env.VITE_SERVER_URL}/user/update`, {
