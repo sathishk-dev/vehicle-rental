@@ -12,6 +12,7 @@ import AdminModel from './models/Admin.js'
 import vehicleModel from './models/Vehicles.js'
 import favVehicleModel from './models/Favourite.js'
 import { OAuth2Client } from 'google-auth-library'
+import { error } from 'console'
 
 dotenv.config();
 
@@ -26,7 +27,7 @@ app.use(cors({
 mongoose.connect(process.env.MONGODB);
 
 const transporter = nodemailer.createTransport({
-    service:'gmail',
+    service: 'gmail',
     host: 'smtp.gmail.com',
     port: 587,
     secure: false,
@@ -40,9 +41,9 @@ app.post('/register_data', async (req, res) => {
     const { signupFirstName, signupLastName, signupEmail, signupPassword } = req.body;
 
     try {
-        const existUser = await userModel.findOne({ signupEmail:signupEmail });
+        const existUser = await userModel.findOne({ signupEmail: signupEmail });
         if (existUser) {
-            return res.json({ message: 'User already exist'});
+            return res.json({ message: 'User already exist' });
         }
 
         const hash = await bcrypt.hash(signupPassword, 10);
@@ -59,12 +60,12 @@ app.post('/register_data', async (req, res) => {
 
         const verifyUrl = `${process.env.SERVER_URL}/verify-email?token=${token}`;
         const mailOption = {
-            from:{
-                name:'KSS Rental',
+            from: {
+                name: 'KSS Rental',
                 address: process.env.EMAIL
             },
-            to:signupEmail,
-            subject:'Email Verification',
+            to: signupEmail,
+            subject: 'Email Verification',
             html: `<h3>Hello ${signupFirstName},</h3>
              <p>Please verify your email by clicking the link below:</p>
              <a href="${verifyUrl}">Verify Email</a>`,
@@ -84,11 +85,11 @@ app.post('/register_data', async (req, res) => {
 
 })
 
-app.get('/verify-email',async(req,res)=>{
-    const {token} = req.query;
-    try{
-        const user = await userModel.findOne({token});
-        if(!user){
+app.get('/verify-email', async (req, res) => {
+    const { token } = req.query;
+    try {
+        const user = await userModel.findOne({ token });
+        if (!user) {
             return res.json({ message: 'Invalid or expired token' });
         }
         user.verified = true;
@@ -103,35 +104,35 @@ app.get('/verify-email',async(req,res)=>{
             </body>
             `);
     }
-    catch(err){
+    catch (err) {
         res.status(500).json({ message: 'Server error', err });
     }
 })
 
-app.post('/login', async(req, res) => {
+app.post('/login', async (req, res) => {
     const { loginEmail, loginPassword } = req.body;
-    try{
-        const user = await userModel.findOne({signupEmail:loginEmail});
-        if(!user){
+    try {
+        const user = await userModel.findOne({ signupEmail: loginEmail });
+        if (!user) {
             return res.json('User not found !');
         }
         const passValid = await bcrypt.compare(loginPassword, user.signupPassword);
         if (!passValid) {
             return res.json('Password is Incorrect');
         }
-        if(!user.verified){
+        if (!user.verified) {
             const newToken = crypto.randomBytes(32).toString('hex');
             user.token = newToken;
             await user.save();
 
             const verifyUrl = `${process.env.SERVER_URL}/verify-email?token=${newToken}`;
             const mailOption = {
-                from:{
-                    name:'KSS Rental',
+                from: {
+                    name: 'KSS Rental',
                     address: process.env.EMAIL
                 },
-                to:loginEmail,
-                subject:'Email Verification Remainder',
+                to: loginEmail,
+                subject: 'Email Verification Remainder',
                 html: `<h3>Hello ${user.signupFirstName},</h3>
                  <p>Please verify your email by clicking the link below:</p>
                  <a href="${verifyUrl}">Verify Email</a>`,
@@ -139,20 +140,20 @@ app.post('/login', async(req, res) => {
             await transporter.sendMail(mailOption);
             return res.json('Please verify your email !');
         }
-        res.json({message:'Success',user})
+        res.json({ message: 'Success', user })
 
     }
-    catch(err){
-        res.json({message:'error',err})
+    catch (err) {
+        res.json({ message: 'error', err })
     }
 
 })
 
 // Google login setup
 const clientAuth = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-app.post('/api/auth/google',async(req,res)=>{
-    const {token} = req.body;
-    try{
+app.post('/api/auth/google', async (req, res) => {
+    const { token } = req.body;
+    try {
         const ticket = await clientAuth.verifyIdToken({
             idToken: token,
             audience: process.env.GOOGLE_CLIENT_ID,
@@ -160,20 +161,20 @@ app.post('/api/auth/google',async(req,res)=>{
         const payLoad = ticket.getPayload();
         const userEmail = payLoad.email;
 
-        let user = await userModel.findOne({signupEmail:userEmail});
-        if(!user){
+        let user = await userModel.findOne({ signupEmail: userEmail });
+        if (!user) {
             user = new userModel({
-                signupFirstName:payLoad.given_name,
-                signupLastName:payLoad.family_name,
-                signupEmail:payLoad.email,
+                signupFirstName: payLoad.given_name,
+                signupLastName: payLoad.family_name,
+                signupEmail: payLoad.email,
             })
             await user.save();
         }
-        const googleJwtToken = jwt.sign({userId: user._id},process.env.JWT_ACCESS_KEY,{expiresIn:'1h'});
+        const googleJwtToken = jwt.sign({ userId: user._id }, process.env.JWT_ACCESS_KEY, { expiresIn: '1h' });
         res.json({ message: 'User authenticated', token: googleJwtToken, userId: user._id })
 
     }
-    catch(err){
+    catch (err) {
         console.log(err)
         res.json({ message: 'Unauthorized' })
     }
@@ -191,7 +192,7 @@ app.post('/adminLogin', (req, res) => {
                     const accessToken = jwt.sign({ email: email }, process.env.JWT_ACCESS_KEY, { expiresIn: '30m' })
                     const refreshToken = jwt.sign({ email: email }, process.env.JWT_REFRESH_KEY, { expiresIn: '1h' })
 
-                    res.cookie('accessToken', accessToken, { maxAge: 30 * 60 * 1000,httpOnly: true, secure: true, sameSite: 'none' })
+                    res.cookie('accessToken', accessToken, { maxAge: 30 * 60 * 1000, httpOnly: true, secure: true, sameSite: 'none' })
                     res.cookie('refreshToken', refreshToken, { maxAge: 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: 'none' })
 
                     return res.json({ login: true, name: user.name })
@@ -278,17 +279,17 @@ app.post('/addVehicle', (req, res) => {
 //         })
 //         .catch(err => res.json(err))
 // })
-app.post('/getVehicles', async(req, res) => {
-    const {userId} = req.body;
-    try{
+app.post('/getVehicles', async (req, res) => {
+    const { userId } = req.body;
+    try {
         const vehicles = await vehicleModel.find({});
-        if(!userId){
+        if (!userId) {
             return res.json(vehicles)
         }
-        const favVehicles = await favVehicleModel.find({userId:userId});
-        const likedVehicleId = new Set(favVehicles.map(veh=>veh.vehicleId));
-        const updatedVehicles = vehicles.map(vehicle=>{
-            if(likedVehicleId.has(vehicle._id.toString())){
+        const favVehicles = await favVehicleModel.find({ userId: userId });
+        const likedVehicleId = new Set(favVehicles.map(veh => veh.vehicleId));
+        const updatedVehicles = vehicles.map(vehicle => {
+            if (likedVehicleId.has(vehicle._id.toString())) {
                 vehicle.isLiked = true;
             }
             return vehicle;
@@ -296,10 +297,10 @@ app.post('/getVehicles', async(req, res) => {
 
         res.json(updatedVehicles);
     }
-    catch(err){
+    catch (err) {
         res.json("error")
     }
-    
+
 })
 
 app.delete('/deleteVehicle/:id', (req, res) => {
@@ -325,32 +326,84 @@ app.post('/getUsers', (req, res) => {
 
 
 // Update Favourites vehicle
-app.put('/updateFavourite/:id',async(req,res)=>{
-    try{
+app.put('/updateFavourite/:id', async (req, res) => {
+    try {
         const vehicleId = req.params.id;
-        const {toggleLike,userId} = req.body;
-        if(toggleLike===true){
+        const { toggleLike, userId } = req.body;
+        if (toggleLike === true) {
             await favVehicleModel.create({
-                userId:userId,
-                vehicleId:vehicleId,
-                isLiked:toggleLike
+                userId: userId,
+                vehicleId: vehicleId,
+                isLiked: toggleLike
             });
-            return res.json({message:'Successfully Updated'})
+            return res.json({ message: 'Successfully Updated' })
         }
-        await favVehicleModel.findOneAndDelete({vehicleId:vehicleId});
-        res.json({message:'Successfully Removed'});
+        await favVehicleModel.findOneAndDelete({ vehicleId: vehicleId });
+        res.json({ message: 'Successfully Removed' });
 
         // await vehicleModel.findByIdAndUpdate(vehicleId,{isLiked:toggleLike});
         // res.json({message:'Successfully Updated'})
     }
-    catch(err){
-        res.json({message:'error while update',err})
+    catch (err) {
+        res.json({ message: 'error while update', err })
     }
-    
+
 
 });
 
-app.get("/", (req,res)=>{
+
+app.get("/user/:userId", async (req, res) => {
+    try {
+        const userId = req.params.userId;
+
+        const user = await userModel.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({
+            status: true,
+            message: 'Successfully fetched',
+            data: user
+        });
+
+    } catch (error) {
+        res.status(400).json({ message: 'Error while fetching user', error });
+    }
+});
+
+
+app.post("/user/update", async (req, res) => {
+    try {
+        const { name, address, userId } = req.body;
+
+        if (!name || !address) {
+            return res.status(400).json({ message: 'Name and Address not found' })
+        }
+
+        const user = await userModel.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' })
+        }
+
+        user.signupFirstName = name;
+        user.signupLastName = "";
+        user.address = address;
+
+        await user.save();
+
+        res.status(200).json({
+            status: true,
+            message: 'Successfully updated'
+        });
+
+    }
+    catch (error) {
+        res.status(400).json({ message: 'error while update', error })
+    }
+})
+
+app.get("/", (req, res) => {
     res.send("Welcom vehicle rendal");
 })
 

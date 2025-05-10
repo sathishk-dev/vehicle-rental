@@ -1,6 +1,65 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import Toast from '../components/Toast';
 
 export default function UserPage() {
+
+    const [userName, setUserName] = useState('');
+    const [address, setAddress] = useState('');
+
+    const [toastMessage, setToastMessage] = useState('');
+    const [showToast, setShowToast] = useState(false);
+    const [toastType, setToastType] = useState('');
+
+    const fetchUser = async () => {
+        const { activeUser } = localStorage.getItem("activeUser");
+
+        try {
+            const { data } = await axios.get(`/user/${activeUser}`);
+
+            if (data.status == true) {
+                setUserName(data.data.signupFirstName +" "+ data.data.signupLastName);
+                setAddress(data.data.address);
+            }
+        }
+        catch (error) {
+            console.log("System error", error);
+        }
+    }
+
+    const updateUser = async (e) => {
+        e.preventDefault();
+        const { activeUser } = localStorage.getItem("activeUser");
+
+        try {
+            const { data } = await axios.post("/user/update", {
+                userId: activeUser,
+                name: userName,
+                address: address,
+            });
+
+            if (data.status == true) {
+                setToastMessage("Profile Updated Sucessfully");
+                setToastType('success')
+                setShowToast(true);
+                setTimeout(() => setShowToast(false), 3000);
+            } else {
+                setToastMessage(data.message);
+                setToastType('error')
+                setShowToast(true);
+                setTimeout(() => setShowToast(false), 3000);
+            }
+        }
+        catch (error) {
+            console.log("System error", error);
+        }
+    }
+
+    useEffect(() => {
+        fetchUser();
+    }, [])
+
+
     return (
         <div className='md:px-[40px] px-[20px]'>
             <div className='my-9 flex gap-5 flex-col md:flex-row'>
@@ -65,14 +124,14 @@ export default function UserPage() {
 
 
                         <div className="w-full p-4 bg-white  sm:p-6 md:p-8">
-                            <form className="space-y-6" action="#">
+                            <form className="space-y-6" onSubmit={updateUser}>
                                 <div>
                                     <label for="name" className="block mb-2 text-sm font-medium text-gray-900 ">Name</label>
-                                    <input type="name" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-2.5" placeholder="Sathish Kumar" required />
+                                    <input value={userName} onChange={(e)=>setUserName(e.target.value)} type="name" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-2.5" required />
                                 </div>
                                 <div>
                                     <label for="address" className="block mb-2 text-sm font-medium text-gray-900">Address</label>
-                                    <textarea name="address" id="" className="bg-gray-50 border resize-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full h-[100px] p-2.5" placeholder="Karaikudi" required ></textarea>
+                                    <textarea value={address} onChange={(e)=> setAddress(e.target.value)} name="address" id="" className="bg-gray-50 border resize-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full h-[100px] p-2.5" placeholder="Address" required ></textarea>
                                 </div>
                                 <button type="submit" className="w-full text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Update</button>
                             </form>
@@ -137,7 +196,7 @@ export default function UserPage() {
                     </div>
                 </div>
 
-
+                <Toast showToast={showToast} toastMessage={toastMessage} toastType={toastType} />
 
             </div>
         </div>
