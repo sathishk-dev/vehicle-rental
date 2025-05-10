@@ -20,7 +20,7 @@ const AdminHome = () => {
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_SERVER_URL}/dashboard`)
       .then(res => {
-        // console.log(res)
+        console.log(res)
         if (!res.data.valid) {
           navigate('/admin');
         }
