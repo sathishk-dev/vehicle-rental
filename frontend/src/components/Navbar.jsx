@@ -4,14 +4,14 @@ import { useNavigate } from "react-router-dom"
 import Toast from './Toast';
 import { GoogleLogin } from '@react-oauth/google'
 
-export default function Navbar({ toggleModal, isModalOpen}) {
+export default function Navbar({ toggleModal, isModalOpen }) {
   const [activeTab, setActiveTab] = useState('login');
   const navigate = useNavigate();
 
   //get auth state
   const isAuth = localStorage.getItem('authToken');
-  const isGoogleAuth =localStorage.getItem('googleAuthToken');
-  
+  const isGoogleAuth = localStorage.getItem('googleAuthToken');
+
   // State for form fields
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
@@ -41,11 +41,11 @@ export default function Navbar({ toggleModal, isModalOpen}) {
       .then(result => {
         if (result.data.message === "Success") {
           localStorage.setItem('authToken', true)
-          localStorage.setItem('activeUser',result.data.user._id)
+          localStorage.setItem('activeUser', result.data.user._id)
           toggleModal();
           navigate('/booking');
         }
-        else if(result.data.message === 'error'){
+        else if (result.data.message === 'error') {
           console.log(result.data.err);
         }
         else {
@@ -72,7 +72,7 @@ export default function Navbar({ toggleModal, isModalOpen}) {
     e.preventDefault(); // Prevent page reload
     axios.post(`${import.meta.env.VITE_SERVER_URL}/register_data`, { signupFirstName, signupLastName, signupEmail, signupPassword })
       .then(res => {
-        if(res.data.message == true) {
+        if (res.data.message == true) {
           console.log(res.status)
           setToastMessage("Verification Link Sent to Email");
           setToastType('success')
@@ -86,7 +86,7 @@ export default function Navbar({ toggleModal, isModalOpen}) {
           setSignupPassword('');
           // setActiveTab('login');
         }
-        else{
+        else {
           setToastMessage(res.data.message);
           setToastType('error')
           setShowToast(true);
@@ -98,16 +98,17 @@ export default function Navbar({ toggleModal, isModalOpen}) {
   };
 
 
-  const handleGoogleLogin = async(res)=>{
-    try{
-      const {data} = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/auth/google`,{
-        token:res.credential,
+  const handleGoogleLogin = async (res) => {
+    try {
+      const { data } = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/auth/google`, {
+        token: res.credential,
       })
-      localStorage.setItem('googleAuthToken',data.token);
+      localStorage.setItem('googleAuthToken', data.token);
+      localStorage.setItem('authToken', true)
       navigate('/booking');
       toggleModal();
     }
-    catch(err){
+    catch (err) {
       console.log('Login failed:', err)
       setToastMessage(data.message);
       setToastType('error')
@@ -260,7 +261,7 @@ export default function Navbar({ toggleModal, isModalOpen}) {
                     <button className="border border-gray-300 px-4 py-2 rounded-full hover:bg-blue-400">
                       <i className="fa fa-facebook" aria-hidden="true"></i>&nbsp; &nbsp;Facebook
                     </button> */}
-                    <GoogleLogin onSuccess={handleGoogleLogin} onError={()=> console.log('Login Failed Try Another way !')} />
+                    <GoogleLogin onSuccess={handleGoogleLogin} onError={() => console.log('Login Failed Try Another way !')} />
                   </div>
                 </form>
               )}
