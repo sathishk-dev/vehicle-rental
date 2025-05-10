@@ -105,6 +105,7 @@ export default function Navbar({ toggleModal, isModalOpen }) {
       })
       localStorage.setItem('googleAuthToken', data.token);
       localStorage.setItem('authToken', true)
+      localStorage.setItem('activeUser', data.userId)
       navigate('/booking');
       toggleModal();
     }

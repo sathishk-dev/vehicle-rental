@@ -170,7 +170,7 @@ app.post('/api/auth/google',async(req,res)=>{
             await user.save();
         }
         const googleJwtToken = jwt.sign({userId: user._id},process.env.JWT_ACCESS_KEY,{expiresIn:'1h'});
-        res.json({ message: 'User authenticated', token: googleJwtToken })
+        res.json({ message: 'User authenticated', token: googleJwtToken, userId: user._id })
 
     }
     catch(err){
