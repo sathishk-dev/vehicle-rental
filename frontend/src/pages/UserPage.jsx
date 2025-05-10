@@ -12,7 +12,7 @@ export default function UserPage() {
     const [toastType, setToastType] = useState('');
 
     const fetchUser = async () => {
-        const { activeUser } = localStorage.getItem("activeUser");
+        const activeUser = localStorage.getItem("activeUser");
 
         try {
             const { data } = await axios.get(`${import.meta.env.VITE_SERVER_URL}/user/${activeUser}`);
