@@ -18,7 +18,7 @@ const AdminHome = () => {
 
   axios.defaults.withCredentials = true;
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_SERVER2_URL}/dashboard`)
+    axios.get(`${import.meta.env.VITE_SERVER_URL}/dashboard`)
       .then(res => {
         // console.log(res)
         if (!res.data.valid) {
@@ -34,7 +34,7 @@ const AdminHome = () => {
   }, [navigate]);
 
   const handleSignOut = () => {
-    axios.get(`${import.meta.env.VITE_SERVER2_URL}/adminLogout`)
+    axios.get(`${import.meta.env.VITE_SERVER_URL}/adminLogout`)
       .then(res => {
         if (res.data.logout) {
           navigate('/admin')
