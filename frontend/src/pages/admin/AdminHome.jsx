@@ -16,7 +16,7 @@ const AdminHome = () => {
   const [adminEmail, setAdminEmail] = useState()
   const navigate = useNavigate();
 
-  // axios.defaults.withCredentials = true;
+  axios.defaults.withCredentials = true;
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_SERVER_URL}/dashboard`)
       .then(res => {
