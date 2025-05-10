@@ -19,7 +19,7 @@ const app = express()
 app.use(cookieParser())
 app.use(express.json());
 app.use(cors({
-    origin: [process.env.CLIENT_URL],
+    origin: 'https://vehicle-rental-gamma.vercel.app',
     credentials: true
 }))
 
@@ -191,8 +191,8 @@ app.post('/adminLogin', (req, res) => {
                     const accessToken = jwt.sign({ email: email }, process.env.JWT_ACCESS_KEY, { expiresIn: '30m' })
                     const refreshToken = jwt.sign({ email: email }, process.env.JWT_REFRESH_KEY, { expiresIn: '1h' })
 
-                    res.cookie('accessToken', accessToken, { maxAge: 30 * 60 * 1000 })
-                    res.cookie('refreshToken', refreshToken, { maxAge: 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: 'strict' })
+                    res.cookie('accessToken', accessToken, { maxAge: 30 * 60 * 1000,httpOnly: true, secure: true, sameSite: 'none' })
+                    res.cookie('refreshToken', refreshToken, { maxAge: 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: 'none' })
 
                     return res.json({ login: true, name: user.name })
                 }
