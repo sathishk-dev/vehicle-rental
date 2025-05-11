@@ -15,7 +15,7 @@ export default function UserPage() {
         const activeUser = localStorage.getItem("activeUser");
 
         try {
-            const { data } = await axios.get(`${import.meta.env.VITE_SERVER_URL}/user/${activeUser}`);
+            const { data } = await axios.get(`/user/getuser/${activeUser}`);
 
             if (data.status == true) {
                 setUserName(data.data.signupFirstName +" "+ data.data.signupLastName);
@@ -32,7 +32,7 @@ export default function UserPage() {
         const activeUser = localStorage.getItem("activeUser");
 
         try {
-            const { data } = await axios.post(`${import.meta.env.VITE_SERVER_URL}/user/update`, {
+            const { data } = await axios.post(`/user/update`, {
                 userId: activeUser,
                 name: userName,
                 address: address,

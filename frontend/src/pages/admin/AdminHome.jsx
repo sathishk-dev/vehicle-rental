@@ -18,7 +18,7 @@ const AdminHome = () => {
 
   axios.defaults.withCredentials = true;
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_SERVER_URL}/dashboard`)
+    axios.get(`/admin/dashboard`)
       .then(res => {
         console.log(res)
         if (!res.data.valid) {
@@ -34,7 +34,7 @@ const AdminHome = () => {
   }, [navigate]);
 
   const handleSignOut = () => {
-    axios.get(`${import.meta.env.VITE_SERVER_URL}/adminLogout`)
+    axios.get(`/admin/logout`)
       .then(res => {
         if (res.data.logout) {
           navigate('/admin')
@@ -53,8 +53,8 @@ const AdminHome = () => {
 
   // DB Store Logic
   const [vehicleName, setVehicleName] = useState('');
-  const [vehicleDetails,setVehicleDetails] = useState('');
-  const [category,setCategory] = useState('');
+  const [vehicleDetails, setVehicleDetails] = useState('');
+  const [category, setCategory] = useState('');
   const [vehicleType, setVehicleType] = useState("Car");
   const [vehicleMode, setVehicleMode] = useState("Manual");
   const [actualPrice, setActualPrice] = useState('');
@@ -66,7 +66,7 @@ const AdminHome = () => {
   const storeData = (e) => {
     e.preventDefault();
     // console.log(vehicleName, vehicleType, vehicleMode, actualPrice, offerPrice, vehicleImage, fuelCapacity, vehicleCapacity)
-    axios.post(`${import.meta.env.VITE_SERVER_URL}/addVehicle`, { vehicleName,category, vehicleDetails, vehicleType, vehicleMode, actualPrice, offerPrice, vehicleImage, fuelCapacity, vehicleCapacity })
+    axios.post(`/vehicle/add`, { vehicleName, category, vehicleDetails, vehicleType, vehicleMode, actualPrice, offerPrice, vehicleImage, fuelCapacity, vehicleCapacity })
       .then(res => {
         console.log(res.data.message);
 
@@ -91,7 +91,7 @@ const AdminHome = () => {
   const [regUsers, setRegUsers] = useState([]);
 
   const getUsers = () => {
-    axios.post(`${import.meta.env.VITE_SERVER_URL}/getUsers`)
+    axios.post(`/user/getusers`)
       .then(res => {
         setRegUsers(res.data);
       })
@@ -230,20 +230,20 @@ const AdminHome = () => {
         {/* Main content */}
         <div className="flex-1 w-full  bg-blue-50 p-6 md:w-[50%] ">
           {section === 'inventory' && (
-            <div> 
+            <div>
               <h1 className="text-2xl font-bold mb-6 text-blue-700">Add New Vehicle</h1>
               <form className="space-y-4" onSubmit={storeData}>
                 <div className="flex gap-2">
-                <div className='w-full'>
-                  <label className="block text-sm font-medium text-blue-700">Vehicle Name</label>
-                  <input type="text" className="mt-1 p-2 w-full border border-blue-300 rounded" value={vehicleName} onChange={(e) => setVehicleName(e.target.value)} placeholder='BMW m5cs' />
+                  <div className='w-full'>
+                    <label className="block text-sm font-medium text-blue-700">Vehicle Name</label>
+                    <input type="text" className="mt-1 p-2 w-full border border-blue-300 rounded" value={vehicleName} onChange={(e) => setVehicleName(e.target.value)} placeholder='BMW m5cs' />
+                  </div>
+                  <div className='w-full'>
+                    <label className="block text-sm font-medium text-blue-700">Category</label>
+                    <input type="text" className="mt-1 p-2 w-full border border-blue-300 rounded" value={category} onChange={(e) => setCategory(e.target.value)} placeholder='Sports Car' />
+                  </div>
                 </div>
-                <div className='w-full'>
-                  <label className="block text-sm font-medium text-blue-700">Category</label>
-                  <input type="text" className="mt-1 p-2 w-full border border-blue-300 rounded" value={category} onChange={(e) => setCategory(e.target.value)} placeholder='Sports Car' />
-                </div>
-                </div>
-                
+
 
                 <div>
                   <label className="block text-sm font-medium text-blue-700">Vehicle Details</label>

@@ -10,7 +10,7 @@ export default function VehiclesList() {
     );
 
     useEffect(() => {
-        axios.post(`${import.meta.env.VITE_SERVER_URL}/getVehicles`)
+        axios.post(`/vehicle/get`)
             .then(res => {
                 setVehicles(res.data);
             })
@@ -18,7 +18,7 @@ export default function VehiclesList() {
     }, [])
 
     const handleDelete = (id) => {
-        axios.delete(`${import.meta.env.VITE_SERVER_URL}/deleteVehicle/` + id)
+        axios.delete(`/vehicle/delete/${id}`)
             .then(res => {
                 // console.log(res);
                 setVehicles(prevVehicle => prevVehicle.filter(vehicle => vehicle._id !== id));

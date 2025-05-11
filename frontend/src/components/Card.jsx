@@ -17,10 +17,10 @@ export default function Card() {
     // );
 
     useEffect(() => {
-        axios.post(`${import.meta.env.VITE_SERVER_URL}/getVehicles`,{userId})
+        axios.post(`/vehicle/get`,{userId})
             .then(res => {
                 setVehicles(res.data);
-                console.log(res.data)
+                // console.log(res.data)
             })
             .catch(err => console.log(err))
     }, [])
@@ -36,7 +36,7 @@ export default function Card() {
                 return;
             }
             const toggleLike = !vehicles[index].isLiked;
-            const {data} = await axios.put(`${import.meta.env.VITE_SERVER_URL}/updateFavourite/${id}`,{toggleLike,userId});
+            const {data} = await axios.put(`/vehicle/updateFav/${id}`,{toggleLike,userId});
 
             toggleLike ? setToastMessage('Added to Favourite'):setToastMessage('Removed from favourite')
             setToastType('success')

@@ -37,7 +37,7 @@ export default function Navbar({ toggleModal, isModalOpen }) {
 
   const handleLogin = (e) => {
     e.preventDefault(); // Prevent page reload
-    axios.post(`${import.meta.env.VITE_SERVER_URL}/login`, { loginEmail, loginPassword })
+    axios.post(`/auth/login`, { loginEmail, loginPassword })
       .then(result => {
         if (result.data.message === "Success") {
           localStorage.setItem('authToken', true)
@@ -70,7 +70,7 @@ export default function Navbar({ toggleModal, isModalOpen }) {
 
   const handleSignup = (e) => {
     e.preventDefault(); // Prevent page reload
-    axios.post(`${import.meta.env.VITE_SERVER_URL}/register_data`, { signupFirstName, signupLastName, signupEmail, signupPassword })
+    axios.post(`/auth/register`, { signupFirstName, signupLastName, signupEmail, signupPassword })
       .then(res => {
         if (res.data.message == true) {
           console.log(res.status)
@@ -100,7 +100,7 @@ export default function Navbar({ toggleModal, isModalOpen }) {
 
   const handleGoogleLogin = async (res) => {
     try {
-      const { data } = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/auth/google`, {
+      const { data } = await axios.post(`/auth/googleauth`, {
         token: res.credential,
       })
       localStorage.setItem('googleAuthToken', data.token);

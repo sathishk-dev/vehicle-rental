@@ -16,7 +16,7 @@ export default function HeroSec() {
 
                     </div>
                 </div>
-                <div className='rounded-lg h-full w-1/2 right-ad border p-5 hidden md:block flex flex-col justify-between'>
+                <div className='rounded-lg h-full w-1/2 right-ad border p-5 md:block flex flex-col justify-between'>
                     <div className='text-white w-full lg:w-2/3 flex flex-col gap-3'>
                         <h3 className='font-semibold text-[23px] lg:text-[25px]'>Easy way to rent a vehicle at a low price</h3>
                         <p className='text-[13px] lg:text-[16px]'>Providing cheap rental services and safe and comfortable facilities.</p>
