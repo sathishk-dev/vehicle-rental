@@ -31,8 +31,10 @@ export const getVehicle = async (req, res) => {
         res.json(updatedVehicles);
     }
     catch (err) {
-        res.json({ message: 'error while fetch vehicles', err })
+        console.error("Fetch error:", err);
+        res.status(500).json({ message: 'error while fetch vehicles', error: err.message });
     }
+
 
 }
 

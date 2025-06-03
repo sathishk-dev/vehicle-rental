@@ -24,7 +24,7 @@ export default function Card() {
         axios.post(`/vehicle/get`, { userId })
             .then(res => {
                 setVehicles(res.data);
-                // console.log(res.data)
+                console.log(res.data)
             })
             .catch(err => console.log(err))
     }, [])
