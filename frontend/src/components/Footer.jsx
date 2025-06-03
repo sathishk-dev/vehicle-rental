@@ -14,15 +14,15 @@ export default function Footer() {
                         </a>
                         <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0">
                             <li>
-                                <a href="#" className="hover:underline me-4 md:me-6">Home</a>
+                                <a href="/" className="hover:underline me-4 md:me-6">Home</a>
                             </li>
                             <li>
-                                <a href="#" className="hover:underline me-4 md:me-6">Contact</a>
+                                <a href="/" className="hover:underline me-4 md:me-6">Contact</a>
                             </li>
                         </ul>
                     </div>
                     <hr className="my-6 border-gray-200 sm:mx-auto  lg:my-8" />
-                    <span className="block text-sm text-gray-500 sm:text-center">© 2024 <a href="/" className="hover:underline">KSS Rental</a>. All Rights Reserved.</span>
+                    <span className="block text-sm text-gray-500 sm:text-center">© {new Date().getFullYear()} <a href="/" className="hover:underline">KSS Rental</a>. Developed by <a target='_blank' href="https://github.com/sathishk-dev">@sathishk-dev</a>.</span>
                 </div>
             </footer>
 

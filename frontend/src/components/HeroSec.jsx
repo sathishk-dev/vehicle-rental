@@ -9,7 +9,7 @@ export default function HeroSec() {
                     <div className='text-white w-full lg:w-2/3 flex flex-col gap-3'>
                         <h3 className='font-semibold text-[23px] lg:text-[25px]'>The Best Platform for Vehicle Rental</h3>
                         <p className='text-[13px] lg:text-[16px]'>Ease of doing rental safely and reliably. Of course at a low price.</p>
-                        <a href="/booking" className='bg-[#3563E9] hover:bg-blue-700 px-4 py-2 rounded w-fit text-sm lg:text-[16px]'>Rental Car</a>
+                        {/* <a href="/booking" className='bg-[#3563E9] hover:bg-blue-700 px-4 py-2 rounded w-fit text-sm lg:text-[16px]'>Rental Car</a> */}
                     </div>
                     <div className='w-full mx-auto'>
                         <img src="./assets/car1.png" alt="" className='w-full lg:w-[80%] mx-auto' />
@@ -20,7 +20,7 @@ export default function HeroSec() {
                     <div className='text-white w-full lg:w-2/3 flex flex-col gap-3'>
                         <h3 className='font-semibold text-[23px] lg:text-[25px]'>Easy way to rent a vehicle at a low price</h3>
                         <p className='text-[13px] lg:text-[16px]'>Providing cheap rental services and safe and comfortable facilities.</p>
-                        <a href="/booking" className='bg-[#54A6FF] hover:bg-blue-400 px-4 py-2 rounded w-fit text-sm lg:text-[16px]'>Rental Car</a>
+                        {/* <a href="/booking" className='bg-[#54A6FF] hover:bg-blue-400 px-4 py-2 rounded w-fit text-sm lg:text-[16px]'>Rental Car</a> */}
                     </div>
                     <div className='w-full mx-auto mt-5 lg:mt-0'>
                         <img src="./assets/car2.png" alt="" className='w-full lg:w-[65%] mx-auto' />
@@ -39,9 +39,9 @@ export default function HeroSec() {
                             <h2 className='font-semibold mb-1'>Locations</h2>
                             <select className="block w-full px-4 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                                 <option>Select Your City</option>
-                                <option>New York</option>
-                                <option>Los Angeles</option>
-                                <option>Chicago</option>
+                                <option>Chennai</option>
+                                <option>Karaikudi</option>
+                                <option>Bangalore</option>
                             </select>
                         </div>
                         <div className='w-1/2 md:w-full'>
@@ -69,9 +69,9 @@ export default function HeroSec() {
                             <h2 className='font-semibold mb-1'>Locations</h2>
                             <select className="block w-full px-4 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                                 <option>Select Your City</option>
-                                <option>New York</option>
-                                <option>Los Angeles</option>
-                                <option>Chicago</option>
+                                <option>Chennai</option>
+                                <option>Karaikudi</option>
+                                <option>Bangalore</option>
                             </select>
                         </div>
                         <div className='w-1/2 md:w-full'>
@@ -89,7 +89,7 @@ export default function HeroSec() {
 
 
 
-            <Card />
+            <Card/>
         </div>
     )
 }

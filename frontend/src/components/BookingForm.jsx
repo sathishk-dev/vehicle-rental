@@ -1,7 +1,15 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export default function BookingForm() {
-    // State hooks for form inputs
+
+    const location = useLocation();
+    const vehicle = location.state?.vehicle || {
+        imageUrl: 'https://pngimg.com/d/audi_PNG1769.png',
+        vehicleName: 'Audi R8'
+    };
+
+
     const [formData, setFormData] = useState({
         name: '',
         address: '',
@@ -44,10 +52,10 @@ export default function BookingForm() {
                     </div>
                     <div className="p-4 flex items-center">
                         <div className="h-[80px] w-[116px] left-ad rounded-lg flex items-center justify-center">
-                            <img src="./assets/car1.png" alt="Car" className='w-full lg:w-[80%]' />
+                            <img src={vehicle.imageUrl} alt="Car" className='w-full' />
                         </div>
                         <div className="pl-4">
-                            <h1 className="text-[#1A202C] font-bold">Nissan GT - R</h1>
+                            <h1 className="text-[#1A202C] font-bold">{vehicle.vehicleName}</h1>
                         </div>
                     </div>
                     <div className="p-4">

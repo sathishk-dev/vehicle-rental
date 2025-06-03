@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import Card from '../components/Card';
+import { Link, useLocation } from 'react-router-dom';
 
 export default function CarDetails() {
-    const [mainImage, setMainImage] = useState("https://www.motortrend.com/uploads/sites/10/2020/01/2020-chevrolet-bolt-ev-lt-5door-hatchback-angular-front.png");
+    const location = useLocation();
+    const { vehicle } = location.state || {};
+
+    const [mainImage, setMainImage] = useState(vehicle.imageUrl);
 
     const handleImageClick = (src) => {
         setMainImage(src);
     };
+
+
 
     return (
         <div className='md:px-[40px] px-[20px]'>
@@ -30,9 +36,9 @@ export default function CarDetails() {
                             </div>
                             <div>
                                 <img
-                                    onClick={() => handleImageClick("https://th.bing.com/th/id/OIP.grfupM-J7YMmKkRaT0NQhwHaE7?pid=ImgDet&w=474&h=315&rs=1")}
+                                    onClick={() => handleImageClick(vehicle.imageUrl)}
                                     className="h-auto max-w-full rounded-lg cursor-pointer"
-                                    src="https://th.bing.com/th/id/OIP.grfupM-J7YMmKkRaT0NQhwHaE7?pid=ImgDet&w=474&h=315&rs=1"
+                                    src={vehicle.imageUrl}
                                     alt="Thumbnail 2"
                                 />
                             </div>
@@ -59,8 +65,8 @@ export default function CarDetails() {
                 <div className="md:w-1/2 w-full bg-white border border-gray-200 rounded-lg shadow lg:p-[50px] lg:px-[70px] p-5 flex flex-col justify-between gap-5 md:gap-0">
                     <div className='flex justify-between'>
                         <div>
-                            <h3 className='font-semibold md:text-2xl text-lg'>Chevrolet Bolt EV</h3>
-                            <p className='text-green-400 text-sm lg:text-base'>Electric Car</p>
+                            <h3 className='font-semibold md:text-2xl text-lg'>{vehicle.vehicleName}</h3>
+                            <p className='text-green-400 text-sm lg:text-base'>{vehicle.category}</p>
 
 
                         </div>
@@ -75,32 +81,33 @@ export default function CarDetails() {
                             <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                         </svg>
                     </div>
-                    <p className='text-gray-500 lg:text-lg text-xs md:text-base '>NISMO has become the embodiment of Nissan's outstanding performance, inspired by the most unforgiving proving ground, the "race track".</p>
+                    <p className='text-gray-500 lg:text-lg text-xs md:text-base '>{vehicle.details}</p>
                     <div className='text-xs md:text-base'>
                         <div className='flex justify-between'>
                             <h2 className='text-gray-400'>Type Car</h2>
-                            <p className='font-bold'>Sports</p>
+                            <p className='font-bold'>{vehicle.category}</p>
                             <h2 className='text-gray-400'>Capacity</h2>
-                            <p className='font-bold'>2 Person</p>
+                            <p className='font-bold'>{vehicle.capacity} Person</p>
                         </div>
                         <div className='flex justify-between mt-1 md:mt-5'>
                             <h2 className='text-gray-400'>Steering</h2>
-                            <p className='font-bold'>Manual</p>
+                            <p className='font-bold'>{vehicle.mode}</p>
                             <h2 className='text-gray-400'>Gasoline</h2>
-                            <p className='font-bold'>70L</p>
+                            <p className='font-bold'>{vehicle.fuelCapacity}L</p>
                         </div>
                     </div>
                     <div>
                         <div className="flex items-center justify-between">
                             <div>
-                                <span className=" font-bold text-gray-900 md:text-2xl text-lg">$90.00/<span className='text-gray-500 text-xs'>day</span> </span>
-                                <p className='text-gray-500 md:mt-1 md:text-sm text-xs font-semibold line-through'>$100.00</p>
+                                <span className=" font-bold text-gray-900 md:text-2xl text-lg">${vehicle.offerPrice}.00/<span className='text-gray-500 text-xs'>day</span> </span>
+                                <p className='text-gray-500 md:mt-1 md:text-sm text-xs font-semibold line-through'>${vehicle.actualPrice}.00</p>
                             </div>
-                            <a href="/booking" className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded text-sm md:px-8 md:py-4 px-4 py-2 text-center ">Rent Now</a>
+                            <Link to="/booking" state={{ vehicle }} className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded text-sm md:px-8 md:py-4 px-4 py-2 text-center ">Rent Now</Link>
                         </div>
                     </div>
                 </div>
             </div>
+
             <Card />
         </div>
     );

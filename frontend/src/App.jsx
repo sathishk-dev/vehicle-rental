@@ -9,7 +9,9 @@ import Booking from './pages/Booking';
 import ProdectedRoute from './components/ProdectedRoute';
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminHome from './pages/admin/AdminHome';
+import { SearchProvider } from "./context/SearchContext"
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import ScrollToTop from './utils/ScrollToTop';
 
 
 function App() {
@@ -17,13 +19,15 @@ function App() {
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
-  
+
 
   return (
     <Router>
-      <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_ID}>
+      <SearchProvider>
+        <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_ID}>
           <Main />
-      </GoogleOAuthProvider>
+        </GoogleOAuthProvider>
+      </SearchProvider>
     </Router>
   );
 
@@ -35,8 +39,10 @@ function App() {
       <>
         {/* Conditionally render Navbar */}
         {routesWithNavAndFooter.includes(location.pathname) && (
-            <Navbar toggleModal={toggleModal} isModalOpen={isModalOpen} />
+          <Navbar toggleModal={toggleModal} isModalOpen={isModalOpen} />
         )}
+
+        <ScrollToTop />
 
         <Routes>
           <Route path="/" element={<MainPage />} />
@@ -52,9 +58,9 @@ function App() {
             </ProdectedRoute>
           } />
           <Route path='/admin' element={<AdminLogin />} />
-          <Route path='/admin/dashboard' element={<AdminHome/>} />
+          <Route path='/admin/dashboard' element={<AdminHome />} />
 
-          
+
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
 

@@ -65,12 +65,12 @@ export default function UserPage() {
             <div className='my-9 flex gap-5 flex-col md:flex-row'>
                 <div className='md:w-1/2 w-full bg-white p-6 rounded-lg flex flex-col gap-3'>
                     <h3 className='font-bold text-lg'>Rental Details</h3>
-                    <div>
-                        <img src="./assets/look.png" alt="" className='rounded-lg' />
-                    </div>
+                    {/* <div>
+                        <img src="./assets/Look.png" alt="" className='rounded-lg w-1/2' />
+                    </div> */}
                     <div className='flex justify-between '>
                         <div className='lg:w-1/2 w-full flex gap-5 items-center'>
-                            <img src="./assets/look.png" alt="" className='w-1/2 rounded-lg' />
+                            <img src="./assets/Look.png" alt="" className='w-1/2 rounded-lg' />
                             <div>
                                 <h3 className='font-bold lg:text-lg mb-2 text-sm'>Nissan GT-R</h3>
                                 <p className='text-gray-500 lg:text-sm text-xs'>Sports Car</p>
@@ -149,7 +149,7 @@ export default function UserPage() {
                         <div className='mb-4'>
                             <div className='flex justify-between items-center mb-4'>
                                 <div className='md:w-1/2 w-full flex md:gap-2 lg:gap-5 gap-3 items-center'>
-                                    <img src="./assets/look.png" alt="" className='w-1/2 rounded-lg' />
+                                    <img src="./assets/Look.png" alt="" className='w-1/2 rounded-lg' />
                                     <div>
                                         <h3 className='font-bold lg:text-lg mb-2 text-sm'>Nissan GT-R</h3>
                                         <p className='text-gray-500 lg:text-sm text-xs'>Sports Car</p>
@@ -165,7 +165,7 @@ export default function UserPage() {
                         <div className='mb-4'>
                             <div className='flex justify-between items-center mb-4'>
                                 <div className='md:w-1/2 w-full flex md:gap-2 lg:gap-5 gap-3 items-center'>
-                                    <img src="./assets/look.png" alt="" className='w-1/2 rounded-lg' />
+                                    <img src="./assets/Look.png" alt="" className='w-1/2 rounded-lg' />
                                     <div>
                                         <h3 className='font-bold lg:text-lg mb-2 text-sm'>Nissan GT-R</h3>
                                         <p className='text-gray-500 lg:text-sm text-xs'>Sports Car</p>
@@ -181,7 +181,7 @@ export default function UserPage() {
                         <div className=''>
                             <div className='flex justify-between items-center mb-4'>
                                 <div className='md:w-1/2 w-full flex md:gap-2 lg:gap-5 gap-3 items-center'>
-                                    <img src="./assets/look.png" alt="" className='w-1/2 rounded-lg' />
+                                    <img src="./assets/Look.png" alt="" className='w-1/2 rounded-lg' />
                                     <div>
                                         <h3 className='font-bold lg:text-lg mb-2 text-sm'>Nissan GT-R</h3>
                                         <p className='text-gray-500 lg:text-sm text-xs'>Sports Car</p>

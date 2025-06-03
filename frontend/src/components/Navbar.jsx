@@ -3,8 +3,10 @@ import axios from 'axios'
 import { useNavigate } from "react-router-dom"
 import Toast from './Toast';
 import { GoogleLogin } from '@react-oauth/google'
+import { useSearch } from '../context/SearchContext';
 
 export default function Navbar({ toggleModal, isModalOpen }) {
+  const { setSearchText, type, setType, capacity, setCapacity, sortby, setSortby } = useSearch();
   const [activeTab, setActiveTab] = useState('login');
   const navigate = useNavigate();
 
@@ -133,7 +135,7 @@ export default function Navbar({ toggleModal, isModalOpen }) {
                   <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                 </svg>
               </div>
-              <input type="text" id="voice-search" className="border border-gray-30 text-sm rounded-full block w-full ps-10 p-2.5 py-2" placeholder="Search Vehicles" required />
+              <input onChange={(e) => setSearchText(e.target.value)} type="text" id="voice-search" className="border border-gray-30 text-sm rounded-full block w-full ps-10 p-2.5 py-2" placeholder="Search Vehicles" required />
               <button type="button" onClick={toggleSidebar} className="absolute inset-y-0 end-0 flex items-center pe-3">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-4 h-4 text-gray-500 hover:text-gray-900 ">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
@@ -295,88 +297,54 @@ export default function Navbar({ toggleModal, isModalOpen }) {
             {/* Scrollable content container */}
             <div className="overflow-y-auto h-full mt-8 px-4">
               <ul>
+                {/* Type */}
                 <li className="py-2 text-[#90A3BF] text-[12px]">Type</li>
-                <div className="mt-7">
-                  <div className="flex items-center mb-4">
-                    <input id="default-checkbox" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                    <label htmlFor="default-checkbox" className="ms-2 text-sm font-medium text-gray-900">Sport</label>
+                {['Sports Car', 'Sedan', 'Electric', 'Muscle Car', 'Compact', 'SUV'].map((item, i) => (
+                  <div key={i} className="flex items-center mb-4">
+                    <input
+                      type="checkbox"
+                      checked={type === item}
+                      onChange={(e) => setType(e.target.checked ? item : null)}
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                    />
+                    <label className="ms-2 text-sm font-medium text-gray-900">{item}</label>
                   </div>
-                  <div className="flex items-center mb-4">
-                    <input id="default-checkbox-2" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                    <label htmlFor="default-checkbox-2" className="ms-2 text-sm font-medium text-gray-900">SUV</label>
-                  </div>
-                  <div className="flex items-center mb-4">
-                    <input id="default-checkbox-3" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                    <label htmlFor="default-checkbox-3" className="ms-2 text-sm font-medium text-gray-900">MPV</label>
-                  </div>
-                  <div className="flex items-center mb-4">
-                    <input id="default-checkbox-4" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                    <label htmlFor="default-checkbox-4" className="ms-2 text-sm font-medium text-gray-900">Sedan</label>
-                  </div>
-                  <div className="flex items-center mb-4">
-                    <input id="default-checkbox-5" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                    <label htmlFor="default-checkbox-5" className="ms-2 text-sm font-medium text-gray-900">Coupe</label>
-                  </div>
-                  <div className="flex items-center mb-4">
-                    <input id="default-checkbox-6" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                    <label htmlFor="default-checkbox-6" className="ms-2 text-sm font-medium text-gray-900">Hatchback</label>
-                  </div>
-                  <div className="flex items-center mb-4">
-                    <input id="default-checkbox-7" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                    <label htmlFor="default-checkbox-7" className="ms-2 text-sm font-medium text-gray-900">Cruiser</label>
-                  </div>
-                  <div className="flex items-center mb-4">
-                    <input id="default-checkbox-8" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                    <label htmlFor="default-checkbox-8" className="ms-2 text-sm font-medium text-gray-900">Sport Bike</label>
-                  </div>
-                  <div className="flex items-center mb-4">
-                    <input id="default-checkbox-9" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                    <label htmlFor="default-checkbox-9" className="ms-2 text-sm font-medium text-gray-900">Pickup Truck</label>
-                  </div>
-                </div>
+                ))}
+
+                {/* Capacity */}
                 <li className="py-2 text-[#90A3BF] text-[12px]">Capacity</li>
-                <div className="mt-7">
-                  <div className="flex items-center mb-4">
-                    <input id="capacity-checkbox-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                    <label htmlFor="capacity-checkbox-1" className="ms-2 text-sm font-medium text-gray-900">2 Seats</label>
+                {[2, 4, 5].map((item) => (
+                  <div key={item} className="flex items-center mb-4">
+                    <input
+                      type="checkbox"
+                      checked={capacity === item.toString()}
+                      onChange={(e) => setCapacity(e.target.checked ? item.toString() : null)}
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                    />
+                    <label className="ms-2 text-sm font-medium text-gray-900">{item} Seats</label>
                   </div>
-                  <div className="flex items-center mb-4">
-                    <input id="capacity-checkbox-2" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                    <label htmlFor="capacity-checkbox-2" className="ms-2 text-sm font-medium text-gray-900">4 Seats</label>
-                  </div>
-                  <div className="flex items-center mb-4">
-                    <input id="capacity-checkbox-3" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                    <label htmlFor="capacity-checkbox-3" className="ms-2 text-sm font-medium text-gray-900">6 Seats</label>
-                  </div>
-                  <div className="flex items-center mb-4">
-                    <input id="capacity-checkbox-4" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                    <label htmlFor="capacity-checkbox-4" className="ms-2 text-sm font-medium text-gray-900">8 or more Seats</label>
-                  </div>
-                </div>
+                ))}
+
+                {/* Sort By Price */}
                 <li className="py-2 text-[#90A3BF] text-[12px]">Price</li>
-
-                <div className="mt-7">
-                  <div className="flex items-center mb-4">
-                    <input id="capacity-checkbox-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                    <label htmlFor="capacity-checkbox-1" className="ms-2 text-sm font-medium text-gray-900">Low</label>
-                  </div>
-                  <div className="flex items-center mb-4">
-                    <input id="capacity-checkbox-2" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                    <label htmlFor="capacity-checkbox-2" className="ms-2 text-sm font-medium text-gray-900">Medium</label>
-                  </div>
-                  <div className="flex items-center mb-4">
-                    <input id="capacity-checkbox-3" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                    <label htmlFor="capacity-checkbox-3" className="ms-2 text-sm font-medium text-gray-900">High</label>
-                  </div>
-                  <div className="flex items-center mb-4">
-                    <input id="capacity-checkbox-4" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                    <label htmlFor="capacity-checkbox-4" className="ms-2 text-sm font-medium text-gray-900">Very High</label>
-                  </div>
+                <div className="flex items-center mb-4">
+                  <input
+                    type="checkbox"
+                    checked={sortby === 'low-to-high'}
+                    onChange={(e) => setSortby(e.target.checked ? 'low-to-high' : null)}
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                  />
+                  <label className="ms-2 text-sm font-medium text-gray-900">Low to High</label>
                 </div>
-
-
-
-
+                <div className="flex items-center mb-4">
+                  <input
+                    type="checkbox"
+                    checked={sortby === 'high-to-low'}
+                    onChange={(e) => setSortby(e.target.checked ? 'high-to-low' : null)}
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                  />
+                  <label className="ms-2 text-sm font-medium text-gray-900">High to Low</label>
+                </div>
               </ul>
             </div>
           </div>
