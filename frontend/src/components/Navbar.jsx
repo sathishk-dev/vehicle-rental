@@ -158,7 +158,7 @@ export default function Navbar({ toggleModal, isModalOpen }) {
               <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
             </svg>
           </div>
-          <input type="text" id="voice-search2" className="border border-gray-30 text-sm rounded block w-full ps-10 p-2.5 py-2" placeholder="Search Vehicles" required />
+          <input onChange={(e) => setSearchText(e.target.value)} type="text" id="voice-search2" className="border border-gray-30 text-sm rounded block w-full ps-10 p-2.5 py-2" placeholder="Search Vehicles" required />
         </div>
         <button type="button" onClick={toggleSidebar} className="flex items-center border border-gray-30 p-2.5 py-2 rounded">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5 text-gray-500 hover:text-gray-900 ">
